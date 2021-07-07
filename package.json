@@ -1,0 +1,56 @@
+{
+  "name": "advancedwebarchiver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start1": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack": "./node_modules/.bin/electron-builder --dir",
+    "afterPack": "node build.js",
+    "dist": "./node_modules/.bin/electron-builder"
+  },
+  "build": {
+    "appId": "com.advancedwebarchiver.magic",
+    "win": {
+      "icon": "./icon.ico"
+    },
+    "extraResources": [
+      {
+        "from": "node_modules/puppeteer-electron",
+        "to": "app.asar.unpacked/node_modules/puppeteer-electron"
+      }
+    ],
+    "extraFiles": [
+      {
+        "from": "data",
+        "to": "data",
+        "filter": []
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrianPetkovsek/AdvancedWebArchiver.git"
+  },
+  "author": "Brian Petkovsek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BrianPetkovsek/AdvancedWebArchiver/issues"
+  },
+  "homepage": "https://github.com/BrianPetkovsek/AdvancedWebArchiver#readme",
+  "dependencies": {
+    "fs-path": "0.0.25",
+    "line-reader": "^0.4.0",
+    "moment": "^2.29.1",
+    "node-blob": "0.0.2",
+    "p3x-binary-search-closest": "^2021.4.124",
+    "puppeteer-electron": "file:libs/puppeteer-electron"
+  },
+  "devDependencies": {
+    "asar": "^3.0.3",
+    "electron": "^13.1.6",
+    "electron-builder": "^22.11.7"
+  }
+}

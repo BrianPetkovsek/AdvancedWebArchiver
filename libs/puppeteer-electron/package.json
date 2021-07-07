@@ -1,0 +1,59 @@
+{
+  "_from": "puppeteer-electron",
+  "_id": "puppeteer-electron@0.0.10",
+  "_inBundle": false,
+  "_integrity": "sha512-PoddAm4udrGanK3ZBRfM13/d2sRLYomH8dTV5uxsZIugum+KpAtE4/F7TBnmAb86cvyhI8fMW/lH4H6LTyDPJg==",
+  "_location": "/puppeteer-electron",
+  "_phantomChildren": {
+    "@electron/get": "1.12.4",
+    "@types/node": "12.20.15",
+    "extract-zip": "1.7.0"
+  },
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "puppeteer-electron",
+    "name": "puppeteer-electron",
+    "escapedName": "puppeteer-electron",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/puppeteer-electron/-/puppeteer-electron-0.0.10.tgz",
+  "_shasum": "131708c7674ad6b0ad9d8c63716f100026a1ebbb",
+  "_spec": "puppeteer-electron",
+  "_where": "G:\\GitHub\\AdvancedWebArchiver",
+  "author": {
+    "name": "nondanee"
+  },
+  "bugs": {
+    "url": "https://github.com/nondanee/puppeteer-electron/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "electron": "^13.1.6",
+    "puppeteer-core": "^10.1.0"
+  },
+  "deprecated": false,
+  "description": "Use Puppeteer's API with Electron",
+  "homepage": "https://github.com/nondanee/puppeteer-electron#readme",
+  "keywords": [
+    "puppeteer",
+    "electron"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "puppeteer-electron",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nondanee/puppeteer-electron.git"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "version": "0.0.10"
+}
