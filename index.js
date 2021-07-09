@@ -1,3 +1,10 @@
+
+const args = require('args-parser')(process.argv);
+const DEBUG = args.DEBUG;
+const REPLAY = args.REPLAY;
+const DATAPATH = args.DATAPATH;
+
+
 const puppeteer = require('puppeteer-electron');
 
 require('events').EventEmitter.defaultMaxListeners = 20;
@@ -9,10 +16,9 @@ const moment = require ('moment');
 var fsPath = require('fs-path');
 var counter = 0;
 reponseWriter.on('write', data => {
-    fsPath.writeFile('data/'+counter++, encodeURI(data.url)+'\n'+data.timestamp+'\n'+ data.responseBody.toString('base64'),  "binary",function(err) { });
+    fsPath.writeFile(DATAPATH+'/'+counter++, encodeURI(data.url)+'\n'+data.timestamp+'\n'+ data.responseBody.toString('base64'),  "binary",function(err) { });
 })
 
-const REPLAY = false;
 const bsClosest = require('p3x-binary-search-closest');
 var replayLookup = {};
 var baseTimestamp = moment().valueOf();
@@ -21,8 +27,10 @@ async function applyEvents(page){
     if (REPLAY){
         page.on('request', request => {
             arr = replayLookup[request.url().toString()];
-            //console.log(arr)
-            //console.log(replayLookup)
+            if(DEBUG){
+                console.log(arr)
+                console.log(replayLookup)
+            }
             try {
                 a = bsClosest.byProperty(arr, moment().valueOf() - baseTimestamp, 'timestamp');
             } catch (error) {request.continue(); return}
@@ -61,14 +69,15 @@ async function applyEvents(page){
 
 const fs = require('fs');
 const fsPromises = fs.promises;
-var lineReader = require('line-reader');
+const lineReader = require('line-reader');
 (async () => {
     if(REPLAY){
-        files = await fsPromises.readdir('data')
+        fs.promises.mkdir(DATAPATH, { recursive: true }).catch(console.error);
+        files = await fsPromises.readdir(DATAPATH);
 
         await files.forEach(file => {
             var a = [];
-            lineReader.eachLine('data/'+file, function(line, last) {
+            lineReader.eachLine(DATAPATH+'/'+file, function(line, last) {
                 a.push(line)
               
                 if (last) {
@@ -92,7 +101,7 @@ var lineReader = require('line-reader');
     const browser = await puppeteer.launch({headless: false, devtools: false, args: []});
     
     browser.on('targetcreated', async(target) => {
-        console.log(`Created target type ${target.type()} url ${target.url()}`);
+        if (DEBUG) console.log(`Created target type ${target.type()} url ${target.url()}`);
         if (target.type() !== 'page') {
             return;
         } else {
