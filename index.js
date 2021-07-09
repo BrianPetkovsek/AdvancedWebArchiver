@@ -1,8 +1,9 @@
 
 const args = require('args-parser')(process.argv);
-const DEBUG = args.DEBUG;
-const REPLAY = args.REPLAY;
-const DATAPATH = args.DATAPATH;
+const DEBUG = args.DEBUG ? true : false;
+const REPLAY = args.REPLAY ? true : false;
+const DATAPATH = args.DATAPATH ? args.DATAPATH : 'DATA';
+const WEBSITE = args.WEBSITE ? args.WEBSITE : 'https://google.ca';
 
 
 const puppeteer = require('puppeteer-electron');
@@ -113,7 +114,7 @@ const lineReader = require('line-reader');
     const pages = await browser.pages();
     const [page] = pages;
     await applyEvents(page);
-    await page.goto('https://www.desmos.com/calculator')
+    await page.goto(WEBSITE)
 
     while(browser.close){
         try {
