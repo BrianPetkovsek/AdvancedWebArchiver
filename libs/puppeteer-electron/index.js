@@ -1,22 +1,26 @@
-const http = require('http')
-const path = require('path')
-const { spawn } = require('child_process')
-const electron = require('electron')
-const puppeteer = require('puppeteer-core')
+const http = require('http');
+const path = require('path');
+const { spawn } = require('child_process');
+const electron = require('electron');
+const puppeteer = require('puppeteer-core');
+const isPackaged = require('electron-is-packaged').isPackaged;
 
 
-let child = null
-const electronPath = typeof (electron) === 'string' ? electron : electron.app.getPath('exe')
+let child = null;
+var electronPath =  isPackaged ? path.join(__dirname, '../', 'electron', 'dist', 'electron.exe') : (typeof(electron) === 'string' ? electron : electron.app.getPath('exe'));
+electronPath = electronPath.replace('app.asar', 'app.asar.unpacked');
 const launch = options => {
-	options = options || {}
-	const env = Object.assign({}, options.env || process.env)
-	if ('ELECTRON_RUN_AS_NODE' in env) delete env.ELECTRON_RUN_AS_NODE
-	if (!('headless' in options)) options.headless = true
-	const args = [path.join(__dirname, 'main.js'), '--remote-debugging-port=8315', JSON.stringify(options)]
+	options = options || {};
+	const env = Object.assign({}, options.env || process.env);
+	if ('ELECTRON_RUN_AS_NODE' in env) delete env.ELECTRON_RUN_AS_NODE;
+	if (!('headless' in options)) options.headless = true;
+	const args = [path.join(__dirname, 'main.js'), '--remote-debugging-port=8315', JSON.stringify(options)];
+	//console.log(args);
+	//console.log(electronPath);
 	return new Promise(resolve => {
-		const listener = data => data.toString() === 'ready' && resolve(child.stdout.off('data', listener))
-		child = spawn(electronPath, args, { env })
-		child.stdout.on('data', listener)
+		const listener = data => data.toString() === 'ready' && resolve(child.stdout.off('data', listener));
+		child = spawn(electronPath, args, { env });
+		child.stdout.on('data', listener);
 	})
 }
 	
@@ -48,14 +52,14 @@ const patch = browser =>
 				: Reflect.get(target, key, receiver),
 		set: (target, key, value, receiver) =>
 			Reflect.set(target, key, value, receiver)
-	})
+	});
 
 module.exports.launch = async options => {
-	const { slowMo, defaultViewport } = options || {}
+	const { slowMo, defaultViewport } = options || {};
 	return Promise.resolve()
 	.then(() => launch(options))
 	//.then(() => endpoint())
 	//.then(browserWSEndpoint => puppeteer.connect({ browserWSEndpoint, slowMo, defaultViewport }))
 	.then(() => puppeteer.connect({ browserURL: 'http://localhost:8315', slowMo, defaultViewport }))
-	.then(browser => patch(browser))
+	.then(browser => patch(browser));
 }

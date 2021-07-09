@@ -44,7 +44,6 @@
     "fs-path": "0.0.25",
     "line-reader": "^0.4.0",
     "moment": "^2.29.1",
-    "node-blob": "0.0.2",
     "p3x-binary-search-closest": "^2021.4.124",
     "puppeteer-electron": "file:libs/puppeteer-electron"
   },

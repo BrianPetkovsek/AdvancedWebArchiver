@@ -1,28 +1,28 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron');
 
-let options = {}
-try { options = JSON.parse(process.argv.pop()) } catch (error) {}
+let options = {};
+try { options = JSON.parse(process.argv.pop()); } catch (error) {}
 Array.from(options.args || [])
 .filter(line => !line.includes('remote-debugging-port'))
 .forEach(line =>{
 	console.log(line)
 	app.commandLine.appendSwitch.apply(null, line.replace(/^--/, '').split('='))}
-)
+);
 
 app.once('ready', () => {
-	const window = new BrowserWindow({ show: false })
-	window.loadURL('data:text/plain;base64,')
+	const window = new BrowserWindow({ show: false });
+	window.loadURL('data:text/plain;base64,');
 	window.once('ready-to-show', () => {
 		if (!options.headless) {
 			window.show();
 			window.focus();
 		}
-		process.stdout.write('ready')
+		process.stdout.write('ready');
 	})
 
 	setInterval(() => {
 		try {
-			window.webContents.executeJavaScript(`(() => {e = document.getElementById('windowSize'); if (e){}else{e = document.createElement('div');document.head.appendChild(e );e.setAttribute("id", "windowSize");e.setAttribute("style", "display: none");}e.setAttribute("size", "`+ window.getSize() +`");})();`)
+			window.webContents.executeJavaScript(`(() => {e = document.getElementById('windowSize'); if (e){}else{e = document.createElement('div');document.head.appendChild(e );e.setAttribute("id", "windowSize");e.setAttribute("style", "display: none");}e.setAttribute("size", "`+ window.getSize() +`");})();`);
 		}catch(error){}
 	}, 500);
 
