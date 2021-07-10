@@ -46,7 +46,7 @@
     "line-reader": "^0.4.0",
     "moment": "^2.29.1",
     "p3x-binary-search-closest": "^2021.4.124",
-    "puppeteer-electron": "file:libs/puppeteer-electron"
+    "puppeteer-electron": "git+https://github.com/BrianPetkovsek/puppeteer-electron.git"
   },
   "devDependencies": {
     "asar": "^3.0.3",
