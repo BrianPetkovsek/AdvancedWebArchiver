@@ -49,10 +49,6 @@
   "license": "MIT",
   "main": "index.js",
   "name": "puppeteer-electron",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nondanee/puppeteer-electron.git"
-  },
   "scripts": {
     "test": "node test.js"
   },
